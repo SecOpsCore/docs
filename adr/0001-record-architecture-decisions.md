@@ -68,7 +68,7 @@ linkable unit with its own status and history.
 
 ### Location and naming
 
-- ADRs live in `adr/` of the repository they affect.
+- ADRs live in `docs/adr/` of the repository they affect.
 - Decisions that span several repositories live in the central `docs`
   repository. Decisions limited to one service live in that service's
   repository.
@@ -91,13 +91,13 @@ Each record contains these sections, in this order:
 
 ### Status lifecycle
 
-| Status | Meaning |
-|---|---|
-| Proposed | Written, not yet decided |
-| Accepted | Decided and in force |
-| Rejected | Considered and not adopted (kept for the record) |
-| Deprecated | No longer relevant, with no replacement |
-| Superseded by ADR-NNNN | Replaced by a newer decision |
+| Status                 | Meaning                                          |
+|------------------------|--------------------------------------------------|
+| Proposed               | Written, not yet decided                         |
+| Accepted               | Decided and in force                             |
+| Rejected               | Considered and not adopted (kept for the record) |
+| Deprecated             | No longer relevant, with no replacement          |
+| Superseded by ADR-NNNN | Replaced by a newer decision                     |
 
 ### Immutability
 
