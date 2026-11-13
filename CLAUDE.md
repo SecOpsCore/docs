@@ -22,6 +22,9 @@ DevOps and secure development.
   `search-service`, `anomaly-service` (Python), `dashboard` (Angular).
 - Default branch: `master`.
 - Create a repository only when it is needed, in the order a real project would follow.
+- Layout of the `docs` repository is flat: documents sit at the repository root, with the
+  folders `adr/`, `learning/`, `ml/`, `runbooks/` and `security/`. There is no `docs/` folder
+  inside the `docs` repository. Service repositories keep their documentation under `docs/`.
 
 ## Development order
 
@@ -86,7 +89,7 @@ Diagrams:
   `storage` (teal), `processing` (violet), `output` (green), `frontend` (pink).
   Reuse the same class for the same role in every diagram.
 - Overview diagrams show roles only. Do not put topic names or technology names on the
-  nodes. Topic names belong in `docs/EVENT_CATALOG.md`. Technologies belong in `ARCHITECTURE.md`.
+  nodes. Topic names belong in `EVENT_CATALOG.md`. Technologies belong in `ARCHITECTURE.md`.
 
 Writing:
 - Headings in sentence case, without trailing punctuation.
@@ -96,8 +99,8 @@ Writing:
 - Explain concepts for the learner: what it is, why it is used here, and the trade-off.
 
 Architecture Decision Records:
-- Location: `docs/adr/NNNN-kebab-case-title.md` in the `docs` repository for
-  cross-repository decisions. Single-service decisions go in that service's `docs/adr/`.
+- Location: `adr/NNNN-kebab-case-title.md` in the `docs` repository for cross-repository
+  decisions. Single-service decisions go in that service's `docs/adr/`.
 - Numbers are four digits, sequential, and never reused.
 - Sections, in order: title, status and date, context and problem statement,
   decision drivers, considered options, decision outcome, consequences.
@@ -121,14 +124,14 @@ them in your reply. Examples:
 - New or changed service: update the README repositories table.
 - New technology decision: write an ADR, and add the technology to the README table if it is new.
 - Milestone or phase progress: update `ROADMAP.md`.
-- Event topic or schema change: update `contracts` first, then `docs/EVENT_CATALOG.md`.
+- Event topic or schema change: update `contracts` first, then `EVENT_CATALOG.md`.
 
 ## Scope
 
 Excluded from this project: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SUPPORT.md`,
 `SECURITY.md`, issue and pull request templates, and `CODEOWNERS`.
 
-Included: `docs/learning/` concept notes for each major technology.
+Included: `learning/` concept notes for each major technology.
 
 ## Current state
 
@@ -136,8 +139,18 @@ Update this section whenever progress changes.
 
 As of 2026-11-13:
 - GitHub organization `SecOpsCore` exists, with a `.github` profile placeholder.
-- `docs` repository: `README.md`, `docs/adr/0001-record-architecture-decisions.md` and
-  `REQUIREMENTS.md` are done and pushed. `GLOSSARY.md` is drafted and awaits commit confirmation.
-- Next: `ARCHITECTURE.md`, then ADRs for decisions already made:
-  multi-repository layout, Kafka plus RabbitMQ, MongoDB plus Elasticsearch, and the Grafana stack.
+- `docs` repository: `README.md`, `REQUIREMENTS.md`, `GLOSSARY.md` and
+  `adr/0001-record-architecture-decisions.md` are done and pushed. `ARCHITECTURE.md` and
+  `adr/0002` to `adr/0005` (multi-repository layout, Kafka plus RabbitMQ, MongoDB plus
+  Elasticsearch, Grafana stack with Alloy) are drafted and await commit confirmation.
+- The flat layout of the `docs` repository is settled.
+- Known follow-ups:
+  - Update `GLOSSARY.md`, `REQUIREMENTS.md` and `adr/0001` for the flat layout, and align the
+    `REQUIREMENTS.md` actor diagram and tables with the formatting rules.
+  - Decisions awaiting approval: ingress with per-service token validation instead of an API
+    gateway service, a dedicated `simulator` repository, and carrying the original payload
+    inside the normalized event.
+- Next: propose the tag `v0.1.0` for `docs` and move `REQUIREMENTS.md`, `GLOSSARY.md` and
+  `ARCHITECTURE.md` to Accepted. Then ADRs for the approved proposals, `ROADMAP.md` and
+  `EVENT_CATALOG.md`.
 - No service code exists yet.
