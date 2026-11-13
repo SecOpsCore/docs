@@ -5,7 +5,7 @@ discussions. Every document uses these terms with the meanings given here. When 
 term is used differently somewhere, either that usage or this entry is wrong, and
 the mismatch is fixed.
 
-- **Status:** Draft
+- **Status:** Accepted
 - **Last updated:** 2026-11-13
 
 ## How to use this glossary
@@ -59,7 +59,7 @@ flowchart LR
 ### Terms
 
 | Term             | Definition                                                                                                                                                                                                                               |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Alert            | A record created when a detection rule or the anomaly model flags suspicious activity. It has a severity and references the events that triggered it. An alert is a signal, not yet a case: related alerts are grouped into an incident. |
 | Anomaly          | Behaviour that deviates significantly from what is normal for an entity, whether or not it matches a known attack pattern.                                                                                                               |
 | Anomaly score    | A number the anomaly model assigns to an entity's behaviour in a time window. A higher score means more unusual behaviour. It is compared with a threshold to decide whether to raise an alert.                                          |
@@ -90,7 +90,7 @@ flowchart LR
 ### Incident lifecycle
 
 | State          | Meaning                                                        |
-| -------------- | -------------------------------------------------------------- |
+|----------------|----------------------------------------------------------------|
 | Open           | The incident was created and no one has started working on it. |
 | Investigating  | An analyst is working on it.                                   |
 | Resolved       | The threat was confirmed and handled.                          |
@@ -99,7 +99,7 @@ flowchart LR
 ### Attack patterns used by built-in rules
 
 | Term              | Definition                                                                                          |
-| ----------------- | --------------------------------------------------------------------------------------------------- |
+|-------------------|-----------------------------------------------------------------------------------------------------|
 | Brute force       | Many authentication attempts against an account or service in a short time, to guess credentials.   |
 | Impossible travel | Two logins by the same account from locations too far apart to be reached in the time between them. |
 | Port scan         | An attempt to find open network ports on a target by probing many of them in sequence.              |
@@ -107,7 +107,7 @@ flowchart LR
 ### Commonly confused terms
 
 | Pair                              | Difference                                                                                                                                                                                                                          |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Event and alert                   | An event records that something happened. An alert says that something suspicious was detected. Most events never produce an alert.                                                                                                 |
 | Alert and incident                | An alert is one signal. An incident is a case that groups related alerts and is worked on by a person.                                                                                                                              |
 | Detection rule and anomaly model  | A rule matches a known pattern that a person defined. A model scores how unusual behaviour is, without a fixed pattern.                                                                                                             |
@@ -117,29 +117,33 @@ flowchart LR
 
 ## 2. Messaging and architecture
 
-| Term                | Definition                                                                                                                                                         |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Backoff             | Waiting longer between each retry of a failed operation, often with a random component, so that retries do not overload a recovering service.                      |
-| Circuit breaker     | A pattern that stops calling a failing dependency for a while and fails fast instead, then tests whether the dependency has recovered.                             |
-| Consumer            | A program that reads messages from a topic or queue.                                                                                                               |
-| Consumer group      | A set of consumers that share the partitions of a topic, so that each message is processed by one member of the group.                                             |
-| Contract            | The agreed interface between services: an API specification or an event schema. Contracts are versioned and live in the `contracts` repository.                    |
-| Dead-letter queue   | A queue or topic that receives messages that could not be processed after the allowed retries, so that they can be inspected without blocking the rest.            |
-| Event stream        | The ordered, durable flow of events between services, from which any number of consumers can read independently.                                                   |
-| Idempotent consumer | A consumer that produces the same result if it receives the same message more than once. It is required because delivery can be duplicated.                        |
-| Message broker      | Software that receives messages from producers and delivers them to consumers.                                                                                     |
-| Outbox pattern      | Writing a message to a database table in the same transaction as the data change, and publishing it afterwards, so that the change and the message cannot diverge. |
-| Partition           | A subdivision of a topic. Messages with the same key go to the same partition, which preserves their order. Partitions allow parallel processing.                  |
-| Producer            | A program that writes messages to a topic or queue.                                                                                                                |
-| Schema registry     | A service that stores event schemas and checks that new versions stay compatible with old ones.                                                                    |
-| Search index        | A copy of event data organised for fast full-text search and aggregation. It can be rebuilt from the event stream.                                                 |
-| Topic               | A named category of messages in the event stream.                                                                                                                  |
-| Walking skeleton    | A minimal version of the system that runs end to end, built first so that every later feature extends something that already works.                                |
+| Term                         | Definition                                                                                                                                                                       |
+|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| API gateway                  | A service that is the single entry point for HTTP requests. It checks tokens, applies rate limits and routes each request to the right service.                                  |
+| Backoff                      | Waiting longer between each retry of a failed operation, often with a random component, so that retries do not overload a recovering service.                                    |
+| Circuit breaker              | A pattern that stops calling a failing dependency for a while and fails fast instead, then tests whether the dependency has recovered.                                           |
+| Claim check                  | Passing a reference to a payload stored elsewhere instead of the payload itself. Considered and rejected in ADR-0008.                                                            |
+| Consumer                     | A program that reads messages from a topic or queue.                                                                                                                             |
+| Consumer group               | A set of consumers that share the partitions of a topic, so that each message is processed by one member of the group.                                                           |
+| Contract                     | The agreed interface between services: an API specification or an event schema. Contracts are versioned and live in the `contracts` repository.                                  |
+| Dead-letter queue            | A queue or topic that receives messages that could not be processed after the allowed retries, so that they can be inspected without blocking the rest.                          |
+| Event-carried state transfer | Putting the data that consumers need inside the event itself, so that they do not have to call back to the producer. The normalized event carries the original payload this way. |
+| Event stream                 | The ordered, durable flow of events between services, from which any number of consumers can read independently.                                                                 |
+| Idempotent consumer          | A consumer that produces the same result if it receives the same message more than once. It is required because delivery can be duplicated.                                      |
+| Message broker               | Software that receives messages from producers and delivers them to consumers.                                                                                                   |
+| Outbox pattern               | Writing a message to a database table in the same transaction as the data change, and publishing it afterwards, so that the change and the message cannot diverge.               |
+| Partition                    | A subdivision of a topic. Messages with the same key go to the same partition, which preserves their order. Partitions allow parallel processing.                                |
+| Producer                     | A program that writes messages to a topic or queue.                                                                                                                              |
+| Rate limit                   | A cap on how many requests a client may make in a period of time, usually enforced with a token bucket.                                                                          |
+| Schema registry              | A service that stores event schemas and checks that new versions stay compatible with old ones.                                                                                  |
+| Search index                 | A copy of event data organised for fast full-text search and aggregation. It can be rebuilt from the event stream.                                                               |
+| Topic                        | A named category of messages in the event stream.                                                                                                                                |
+| Walking skeleton             | A minimal version of the system that runs end to end, built first so that every later feature extends something that already works.                                              |
 
 ## 3. Security
 
 | Term            | Definition                                                                                                                                                 |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | DAST            | Dynamic application security testing: attacking a running application from outside to find vulnerabilities.                                                |
 | JWT             | JSON Web Token: a signed token that carries identity and permission claims, used to authenticate API calls.                                                |
 | Least privilege | Giving each user, service and process only the access it needs, and no more.                                                                               |
@@ -158,7 +162,7 @@ flowchart LR
 ## 4. Observability and operations
 
 | Term             | Definition                                                                                                                             |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+|------------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | GitOps           | Operating infrastructure by keeping its desired state in Git and letting an agent apply it automatically.                              |
 | Log              | A timestamped text record written by a program. SecOpsCore services write structured logs, which are machine-readable.                 |
 | Metric           | A numeric measurement sampled over time, such as requests per second.                                                                  |
@@ -170,12 +174,12 @@ flowchart LR
 
 ## 5. Project process
 
-| Term                 | Definition                                                                                                                                                                                        |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Term                 | Definition                                                                                                                                                                                   |
+|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | ADR                  | Architecture Decision Record: a short, immutable document that records one significant decision with its context, options and consequences. See `adr/0001-record-architecture-decisions.md`. |
-| C4 model             | A way to describe architecture at four levels of detail: context, containers, components and code.                                                                                                |
-| Conventional Commits | A commit message convention of the form `type: summary`, which makes history readable and releases automatable.                                                                                   |
-| Keep a Changelog     | A format for `CHANGELOG.md` files, with an `Unreleased` section and one section per version.                                                                                                      |
-| MoSCoW               | A prioritisation scheme: Must, Should, Could, and Won't.                                                                                                                                          |
-| Requirement ID       | The stable identifier of a requirement, such as `FR-DET-03` for a functional requirement or `NFR-SEC-02` for a non-functional one. IDs are never reused.                                          |
-| Semantic Versioning  | A version number of the form MAJOR.MINOR.PATCH, in which each part signals the kind of change. Each SecOpsCore repository is versioned independently.                                             |
+| C4 model             | A way to describe architecture at four levels of detail: context, containers, components and code.                                                                                           |
+| Conventional Commits | A commit message convention of the form `type: summary`, which makes history readable and releases automatable.                                                                              |
+| Keep a Changelog     | A format for `CHANGELOG.md` files, with an `Unreleased` section and one section per version.                                                                                                 |
+| MoSCoW               | A prioritisation scheme: Must, Should, Could, and Won't.                                                                                                                                     |
+| Requirement ID       | The stable identifier of a requirement, such as `FR-DET-03` for a functional requirement or `NFR-SEC-02` for a non-functional one. IDs are never reused.                                     |
+| Semantic Versioning  | A version number of the form MAJOR.MINOR.PATCH, in which each part signals the kind of change. Each SecOpsCore repository is versioned independently.                                        |
