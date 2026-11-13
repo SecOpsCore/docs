@@ -15,7 +15,6 @@ and anomalies, raises alerts and lets an analyst triage them as incidents.
 
 ```mermaid
 flowchart LR
-    %% nodes
     SRC(["📥 Security sources"])
     KFK[("⚡ Event stream")]
     ML["🤖 Anomaly scoring"]
@@ -27,7 +26,6 @@ flowchart LR
     DSH["📊 Dashboard"]
     DB[("🔎 Event storage<br/>and search")]
     
-    %% relations
     SRC --> KFK
     KFK --> ML
     KFK --> TI
@@ -41,7 +39,6 @@ flowchart LR
     DSH --> INC
     DSH --> DB
 
-    %% Styling
     classDef source fill:#d9f0ff,stroke:#0088cc,color:#003b66
     classDef stream fill:#fff0d9,stroke:#ff8800,color:#663300
     classDef detection fill:#f2e6ff,stroke:#9966ff,color:#4b2680
@@ -100,7 +97,7 @@ Documents are written one at a time. The table is updated with each one.
 |--------------------------------------------------|--------------------------------------------------------------|---------|
 | `README.md`                                      | This file                                                    | Done    |
 | `docs/adr/0001-record-architecture-decisions.md` | Why and how decisions are recorded                           | Done    |
-| `REQUIREMENTS.md`                                | Functional and non-functional requirements                   | Planned |
+| `REQUIREMENTS.md`                                | Functional and non-functional requirements                   | Done    |
 | `GLOSSARY.md`                                    | Domain terms                                                 | Planned |
 | `ARCHITECTURE.md`                                | System context, containers and data flow                     | Planned |
 | `ROADMAP.md`                                     | Phases and milestones                                        | Planned |
