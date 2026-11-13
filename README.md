@@ -79,13 +79,13 @@ Records (ADRs) under `adr/`.
 ## Repositories
 
 | Repository             | Purpose                                                                | Status      |
-|------------------------|------------------------------------------------------------------------|-------------|
+|------------------------|------------------------------------------------------------------------|-----------------|
 | `anomaly-service`      | ML-based anomaly detection                                             | Planned     |
 | `api-gateway`          | Single HTTP entry point: token checks, coarse rate limits, routing     | Planned     |
 | `contracts`            | OpenAPI specifications and event schemas                               | Planned     |
 | `dashboard`            | Angular web interface                                                  | Planned     |
 | `detection-service`    | Rule-based threat detection                                            | Planned     |
-| `docs`                 | Central documentation (this repository)                                | In progress |
+| `docs`                 | Central documentation (this repository)                                | Released v0.1.0 |
 | `incident-service`     | Alerts and incident management                                         | Planned     |
 | `ingestion-service`    | Receives and validates security events                                 | Planned     |
 | `notification-service` | Alert delivery                                                         | Planned     |
