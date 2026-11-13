@@ -102,7 +102,7 @@ Records (ADRs) under `docs/adr/`.
 | `./DEVELOPMENT.md`                          | Local development setup                                      | Planned |
 | `./EVENT_CATALOG.md`                        | Kafka topics and event schemas                               | Planned |
 | `./GIT_WORKFLOW.md`                         | Branching, commits, versioning and tagging                   | Planned |
-| `./GLOSSARY.md`                             | Domain terms                                                 | Planned |
+| `./GLOSSARY.md`                             | Domain terms                                                 | Done    |
 | `./INCIDENT_RESPONSE.md`                    | Incident handling and postmortems                            | Planned |
 | `./OBSERVABILITY.md`                        | Metrics, logs and traces                                     | Planned |
 | `./README.md`                               | This file                                                    | Done    |
