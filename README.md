@@ -89,7 +89,7 @@ Records (ADRs) under `adr/`.
 | `ingestion-service`    | Receives and validates security events            | Planned     |
 | `notification-service` | Alert delivery                                    | Planned     |
 | `platform`             | Helm charts, Argo CD, observability configuration | Planned     |
-| `search-service`       | Event search and analytics                        | Planned     |
+| `search-service`       | Event storage, search and analytics               | Planned     |
 
 ## Documentation index
 
@@ -112,6 +112,10 @@ Records (ADRs) under `adr/`.
 | `./SLOs.md`                                                           | Service level objectives                                     | Planned |
 | `./TESTING_STRATEGY.md`                                               | Test pyramid and tooling                                     | Planned |
 | `adr/0001-record-architecture-decisions.md`                           | Why and how decisions are recorded                           | Done    |
+| `adr/0002-use-a-multi-repository-layout.md`                           | Repository structure under one GitHub organization           | Done    |
+| `adr/0003-use-kafka-for-events-and-rabbitmq-for-notifications.md`     | Choice of message brokers                                    | Done    |
+| `adr/0004-use-mongodb-for-raw-events-and-elasticsearch-for-search.md` | Choice of datastores for events                              | Done    |
+| `adr/0005-use-the-grafana-stack-with-alloy-for-observability.md`      | Choice of observability stack                                | Done    |
 | `learning/`                                                           | Concept notes on the technologies used                       | Planned |
 | `ml/`                                                                 | Model card, datasets and evaluation                          | Planned |
 | `runbooks/`                                                           | Operational runbooks                                         | Planned |
