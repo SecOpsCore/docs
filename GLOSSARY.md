@@ -15,7 +15,7 @@ the mismatch is fixed.
   the domain section.
 - A new term is added in the same change that first uses it in another document.
 - Names of services, topics and fields are not defined here. They live in
-  `ARCHITECTURE.md`, `docs/EVENT_CATALOG.md` and `docs/DATA_MODEL.md`.
+  `ARCHITECTURE.md`, `EVENT_CATALOG.md` and `DATA_MODEL.md`.
 
 ## 1. Core domain
 
@@ -172,7 +172,7 @@ flowchart LR
 
 | Term                 | Definition                                                                                                                                                                                        |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ADR                  | Architecture Decision Record: a short, immutable document that records one significant decision with its context, options and consequences. See `docs/adr/0001-record-architecture-decisions.md`. |
+| ADR                  | Architecture Decision Record: a short, immutable document that records one significant decision with its context, options and consequences. See `adr/0001-record-architecture-decisions.md`. |
 | C4 model             | A way to describe architecture at four levels of detail: context, containers, components and code.                                                                                                |
 | Conventional Commits | A commit message convention of the form `type: summary`, which makes history readable and releases automatable.                                                                                   |
 | Keep a Changelog     | A format for `CHANGELOG.md` files, with an `Unreleased` section and one section per version.                                                                                                      |
