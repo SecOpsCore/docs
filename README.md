@@ -26,12 +26,11 @@ flowchart LR
     NOT["📨 Notifications"]
     DSH["📊 Dashboard"]
     DB[("🔎 Event storage<br/>and search")]
-    
+
     SRC --> ING
     ING --> KFK
     KFK --> ML
     KFK --> TI
-    KFK --> HUM
     KFK --> DB
     ML --> ALR
     TI --> ALR
@@ -41,21 +40,23 @@ flowchart LR
     DSH --> INC
     DSH --> DB
 
-    classDef source fill:#d9f0ff,stroke:#0088cc,color:#003b66
-    classDef pipeline fill:#f1f5f9,stroke:#64748b,color:#1e293b
-    classDef stream fill:#fff0d9,stroke:#ff8800,color:#663300
-    classDef detection fill:#f2e6ff,stroke:#9966ff,color:#4b2680
-    classDef alert fill:#e0ffe0,stroke:#00aa44,color:#005522
-    classDef dashboard fill:#ffe6f0,stroke:#ff3388,color:#881144
-    classDef storage fill:#ccfff5,stroke:#00aa99,color:#005544
+    classDef source fill:#E0F2FE,stroke:#0284C7,color:#075985,stroke-width:2px
+    classDef pipeline fill:#F1F5F9,stroke:#64748B,color:#1E293B,stroke-width:1.5px
+    classDef messaging fill:#FEF3C7,stroke:#D97706,color:#92400E,stroke-width:2px
+    classDef storage fill:#CCFBF1,stroke:#0D9488,color:#134E4A,stroke-width:1.5px
+    classDef processing fill:#EDE9FE,stroke:#7C3AED,color:#4C1D95,stroke-width:1.5px
+    classDef output fill:#DCFCE7,stroke:#16A34A,color:#166534,stroke-width:2px
+    classDef frontend fill:#FCE7F3,stroke:#DB2777,color:#9D174D,stroke-width:2px
 
     class SRC,HUM source
     class ING pipeline
-    class KFK stream
-    class ML,TI detection
-    class ALR,INC,NOT alert
-    class DSH dashboard
+    class KFK messaging
     class DB storage
+    class ML,TI processing
+    class ALR,INC,NOT output
+    class DSH frontend
+
+    linkStyle default stroke:#94A3B8,stroke-width:2px
 ```
 
 ## Technology overview
@@ -73,7 +74,7 @@ flowchart LR
 | Observability                | Micrometer, Prometheus, Grafana, Loki, Tempo, Alloy, OpenTelemetry                   |
 
 The reasoning behind each choice is recorded in the Architecture Decision
-Records (ADRs) under `docs/adr/`.
+Records (ADRs) under `adr/`.
 
 ## Repositories
 
@@ -92,29 +93,29 @@ Records (ADRs) under `docs/adr/`.
 
 ## Documentation index
 
-| Document                                    | Description                                                  | Status  |
-|---------------------------------------------|--------------------------------------------------------------|---------|
-| `./API_GUIDELINES.md`                       | REST conventions                                             | Planned |
-| `./ARCHITECTURE.md`                         | System context, containers and data flow                     | Done    |
-| `./CODING_STANDARDS.md`                     | Conventions per language                                     | Planned |
-| `./DATA_MODEL.md`                           | Data models per datastore                                    | Planned |
-| `./DEPLOYMENT.md`                           | Kubernetes and GitOps flow                                   | Planned |
-| `./DEVELOPMENT.md`                          | Local development setup                                      | Planned |
-| `./EVENT_CATALOG.md`                        | Kafka topics and event schemas                               | Planned |
-| `./GIT_WORKFLOW.md`                         | Branching, commits, versioning and tagging                   | Planned |
-| `./GLOSSARY.md`                             | Domain terms                                                 | Done    |
-| `./INCIDENT_RESPONSE.md`                    | Incident handling and postmortems                            | Planned |
-| `./OBSERVABILITY.md`                        | Metrics, logs and traces                                     | Planned |
-| `./README.md`                               | This file                                                    | Done    |
-| `./REQUIREMENTS.md`                         | Functional and non-functional requirements                   | Done    |
-| `./ROADMAP.md`                              | Phases and milestones                                        | Planned |
-| `./SLOs.md`                                 | Service level objectives                                     | Planned |
-| `./TESTING_STRATEGY.md`                     | Test pyramid and tooling                                     | Planned |
-| `adr/0001-record-architecture-decisions.md` | Why and how decisions are recorded                           | Done    |
-| `learning/`                                 | Concept notes on the technologies used                       | Planned |
-| `ml/`                                       | Model card, datasets and evaluation                          | Planned |
-| `runbooks/`                                 | Operational runbooks                                         | Planned |
-| `security/`                                 | Threat model, secure coding, DevSecOps, secrets, authN/authZ | Planned |
+| Document                                                              | Description                                                  | Status  |
+|-----------------------------------------------------------------------|--------------------------------------------------------------|---------|
+| `./API_GUIDELINES.md`                                                 | REST conventions                                             | Planned |
+| `./ARCHITECTURE.md`                                                   | System context, containers and data flow                     | Done    |
+| `./CODING_STANDARDS.md`                                               | Conventions per language                                     | Planned |
+| `./DATA_MODEL.md`                                                     | Data models per datastore                                    | Planned |
+| `./DEPLOYMENT.md`                                                     | Kubernetes and GitOps flow                                   | Planned |
+| `./DEVELOPMENT.md`                                                    | Local development setup                                      | Planned |
+| `./EVENT_CATALOG.md`                                                  | Kafka topics and event schemas                               | Planned |
+| `./GIT_WORKFLOW.md`                                                   | Branching, commits, versioning and tagging                   | Planned |
+| `./GLOSSARY.md`                                                       | Domain terms                                                 | Done    |
+| `./INCIDENT_RESPONSE.md`                                              | Incident handling and postmortems                            | Planned |
+| `./OBSERVABILITY.md`                                                  | Metrics, logs and traces                                     | Planned |
+| `./README.md`                                                         | This file                                                    | Done    |
+| `./REQUIREMENTS.md`                                                   | Functional and non-functional requirements                   | Done    |
+| `./ROADMAP.md`                                                        | Phases and milestones                                        | Planned |
+| `./SLOs.md`                                                           | Service level objectives                                     | Planned |
+| `./TESTING_STRATEGY.md`                                               | Test pyramid and tooling                                     | Planned |
+| `adr/0001-record-architecture-decisions.md`                           | Why and how decisions are recorded                           | Done    |
+| `learning/`                                                           | Concept notes on the technologies used                       | Planned |
+| `ml/`                                                                 | Model card, datasets and evaluation                          | Planned |
+| `runbooks/`                                                           | Operational runbooks                                         | Planned |
+| `security/`                                                           | Threat model, secure coding, DevSecOps, secrets, authN/authZ | Planned |
 
 ## Conventions
 
@@ -125,9 +126,9 @@ Records (ADRs) under `docs/adr/`.
   is versioned and tagged independently.
 - **Changelog:** [Keep a Changelog](https://keepachangelog.com/) format.
 - **Diagrams:** Mermaid only, no ASCII art. The style rules are defined in
-  `docs/GIT_WORKFLOW.md` and `ARCHITECTURE.md` once they exist.
+  `CLAUDE.md`.
 
-The full details will live in `docs/GIT_WORKFLOW.md`.
+The full details will live in `GIT_WORKFLOW.md`.
 
 ## Project status
 
