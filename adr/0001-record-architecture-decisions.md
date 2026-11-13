@@ -68,7 +68,7 @@ linkable unit with its own status and history.
 
 ### Location and naming
 
-- ADRs live in `docs/adr/` of the repository they affect.
+- ADRs live in `adr/` of the repository they affect.
 - Decisions that span several repositories live in the central `docs`
   repository. Decisions limited to one service live in that service's
   repository.
