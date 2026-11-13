@@ -95,7 +95,7 @@ Records (ADRs) under `docs/adr/`.
 | Document                                    | Description                                                  | Status  |
 |---------------------------------------------|--------------------------------------------------------------|---------|
 | `./API_GUIDELINES.md`                       | REST conventions                                             | Planned |
-| `./ARCHITECTURE.md`                         | System context, containers and data flow                     | Planned |
+| `./ARCHITECTURE.md`                         | System context, containers and data flow                     | Done    |
 | `./CODING_STANDARDS.md`                     | Conventions per language                                     | Planned |
 | `./DATA_MODEL.md`                           | Data models per datastore                                    | Planned |
 | `./DEPLOYMENT.md`                           | Kubernetes and GitOps flow                                   | Planned |
