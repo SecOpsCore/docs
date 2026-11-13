@@ -4,7 +4,7 @@ This document defines what SecOpsCore must do (functional requirements) and how
 well it must do it (non-functional requirements). It is the reference for
 design, testing and scope decisions.
 
-- **Status:** Draft
+- **Status:** Accepted
 - **Last updated:** 2026-11-13
 
 ## 1. Purpose and scope
@@ -83,17 +83,17 @@ normal change process.
 ```mermaid
 flowchart LR
     SRC(["📥 Event source"])
-    CAP1["Send events"]
     SIM(["🧪 Simulator"])
     ANA(["👤 Security analyst"])
+    ADM(["🔧 Administrator"])
+    CAP1["Send events"]
     CAP2["Search events"]
     CAP3["Triage alerts"]
     CAP4["Manage incidents"]
-    ADM(["🔧 Administrator"])
     CAP5["Manage detection rules"]
     CAP6["Manage users and roles"]
     SYS["SecOpsCore"]
-    
+
     SRC --> CAP1
     SIM --> CAP1
     ANA --> CAP2
@@ -110,7 +110,6 @@ flowchart LR
 
     classDef source fill:#E0F2FE,stroke:#0284C7,color:#075985,stroke-width:2px
     classDef processing fill:#EDE9FE,stroke:#7C3AED,color:#4C1D95,stroke-width:1.5px
-    classDef output fill:#DCFCE7,stroke:#16A34A,color:#166534,stroke-width:2px
     classDef pipeline fill:#F1F5F9,stroke:#64748B,color:#1E293B,stroke-width:1.5px
 
     class SRC,SIM,ANA,ADM source
