@@ -90,8 +90,8 @@ Diagrams:
 
 Writing:
 - Headings in sentence case, without trailing punctuation.
-- Tables for inventories and status. Prose for reasoning. Format tables by including additional spaces at the 
-  end of each cell, so that columns look aligned in the editor too.
+- Tables for inventories and status. Prose for reasoning. Pad every table cell with trailing
+  spaces so that the columns line up in a plain-text editor too.
 - Link to an ADR for every decision, rather than explaining it inline.
 - Explain concepts for the learner: what it is, why it is used here, and the trade-off.
 
@@ -136,8 +136,8 @@ Update this section whenever progress changes.
 
 As of 2026-11-13:
 - GitHub organization `SecOpsCore` exists, with a `.github` profile placeholder.
-- `docs` repository: `README.md` and `docs/adr/0001-record-architecture-decisions.md` are done.
-  `REQUIREMENTS.md` is drafted and awaits commit confirmation.
-- Next: `GLOSSARY.md`, then `ARCHITECTURE.md`, then ADRs for decisions already made:
+- `docs` repository: `README.md`, `docs/adr/0001-record-architecture-decisions.md` and
+  `REQUIREMENTS.md` are done and pushed. `GLOSSARY.md` is drafted and awaits commit confirmation.
+- Next: `ARCHITECTURE.md`, then ADRs for decisions already made:
   multi-repository layout, Kafka plus RabbitMQ, MongoDB plus Elasticsearch, and the Grafana stack.
 - No service code exists yet.
