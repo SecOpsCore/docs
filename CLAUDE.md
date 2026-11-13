@@ -17,9 +17,9 @@ DevOps and secure development.
 - GitHub organization: `SecOpsCore`.
 - Local parent folder: `sec-ops-core`. It is a plain folder, not a Git repository.
 - Each repository has its own Git root, and no repository contains another one.
-- Repositories: `docs`, `contracts`, `platform`, `ingestion-service`,
-  `detection-service`, `incident-service`, `notification-service`,
-  `search-service`, `anomaly-service` (Python), `dashboard` (Angular).
+- Repositories: `docs`, `contracts`, `platform`, `api-gateway`, `ingestion-service`,
+  `detection-service`, `incident-service`, `notification-service`, `search-service`,
+  `anomaly-service` (Python), `dashboard` (Angular), `simulator`.
 - Default branch: `master`.
 - Create a repository only when it is needed, in the order a real project would follow.
 - Layout of the `docs` repository is flat: documents sit at the repository root, with the
@@ -139,18 +139,12 @@ Update this section whenever progress changes.
 
 As of 2026-11-13:
 - GitHub organization `SecOpsCore` exists, with a `.github` profile placeholder.
-- `docs` repository: `README.md`, `REQUIREMENTS.md`, `GLOSSARY.md` and
-  `adr/0001-record-architecture-decisions.md` are done and pushed. `ARCHITECTURE.md` and
-  `adr/0002` to `adr/0005` (multi-repository layout, Kafka plus RabbitMQ, MongoDB plus
-  Elasticsearch, Grafana stack with Alloy) are drafted and await commit confirmation.
-- The flat layout of the `docs` repository is settled.
-- Known follow-ups:
-  - Update `GLOSSARY.md`, `REQUIREMENTS.md` and `adr/0001` for the flat layout, and align the
-    `REQUIREMENTS.md` actor diagram and tables with the formatting rules.
-  - Decisions awaiting approval: ingress with per-service token validation instead of an API
-    gateway service, a dedicated `simulator` repository, and carrying the original payload
-    inside the normalized event.
-- Next: propose the tag `v0.1.0` for `docs` and move `REQUIREMENTS.md`, `GLOSSARY.md` and
-  `ARCHITECTURE.md` to Accepted. Then ADRs for the approved proposals, `ROADMAP.md` and
-  `EVENT_CATALOG.md`.
+- Sprint 1 (documentation baseline) is complete in the `docs` repository, flat layout:
+  `README.md`, `REQUIREMENTS.md`, `GLOSSARY.md`, `ARCHITECTURE.md`, `CHANGELOG.md` and
+  ADR-0001 to ADR-0008. Requirements, glossary and architecture are Accepted. Release
+  `v0.1.0` is prepared and is tagged by the user after the commits.
+- Settled decisions: API gateway with all rate limits (ADR-0006), simulator in its own
+  repository (ADR-0007), original payload inside the normalized event (ADR-0008).
+- Next (sprint 2): `ROADMAP.md`, then `EVENT_CATALOG.md` and the `contracts` repository,
+  then `GIT_WORKFLOW.md`. After that, the walking skeleton.
 - No service code exists yet.
