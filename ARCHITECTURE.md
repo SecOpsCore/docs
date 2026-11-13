@@ -25,7 +25,7 @@ referenced here.
 ### 1.2 How to read this document
 
 | If you want to know...                       | Read |
-| -------------------------------------------- | ---- |
+|----------------------------------------------|------|
 | What the system is and who uses it           | 3    |
 | Which parts exist and how they talk          | 4    |
 | What happens to one event, step by step      | 5    |
@@ -43,7 +43,7 @@ monitoring platform that loses events or can be abused is worse than a slow one,
 so correctness and security rank above speed.
 
 | Priority | Quality                        | What it means here                                                | Requirements             |
-| -------- | ------------------------------ | ----------------------------------------------------------------- | ------------------------ |
+|----------|--------------------------------|-------------------------------------------------------------------|--------------------------|
 | 1        | Reliability and data integrity | An accepted event is never lost, and duplicates cause no harm.    | NFR-REL-01, NFR-REL-02   |
 | 2        | Security                       | The platform resists abuse and protects the data it holds.        | NFR-SEC-01 to NFR-SEC-08 |
 | 3        | Independent deployability      | Every service can be built, tested, versioned and deployed alone. | NFR-MNT-01               |
@@ -63,7 +63,7 @@ repositories. In addition:
 ## 2. Design principles
 
 | Principle                      | Meaning                                                                   | Consequence                                                                         |
-| ------------------------------ | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+|--------------------------------|---------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
 | Independent deployability      | Each service has its own repository, build, image, version and datastore. | Services talk only through contracts. No shared database, no shared business code.  |
 | Asynchronous data plane        | Events flow through a message broker. User requests are synchronous REST. | Ingestion is decoupled from processing. The dashboard uses simple request/response. |
 | Own your data                  | Every datastore has exactly one owning service.                           | Other services get the data through the owner's API or through events.              |
@@ -104,7 +104,7 @@ flowchart LR
 ```
 
 | Party             | Role                                                | Interaction                                           |
-| ----------------- | --------------------------------------------------- | ----------------------------------------------------- |
+|-------------------|-----------------------------------------------------|-------------------------------------------------------|
 | Security analyst  | Reviews events and alerts, works on incidents.      | Uses the dashboard. Signs in through OpenID Connect.  |
 | Administrator     | Manages users, roles, detection rules and settings. | Uses the dashboard and the identity provider console. |
 | Event sources     | External systems that produce security events.      | Push events over HTTPS (and syslog, if implemented).  |
@@ -182,7 +182,7 @@ flowchart LR
 ```
 
 | Class      | Colour | Used for in this document                                    |
-| ---------- | ------ | ------------------------------------------------------------ |
+|------------|--------|--------------------------------------------------------------|
 | source     | Blue   | External people and systems                                  |
 | pipeline   | Gray   | Entry points and platform plumbing (ingress, ingestion, IAM) |
 | messaging  | Amber  | Message brokers                                              |
@@ -244,7 +244,7 @@ flowchart LR
 ### 4.3 Container inventory
 
 | Container            | Kind      | Responsibility                                                              | Technology                       | Repository             |
-| -------------------- | --------- | --------------------------------------------------------------------------- | -------------------------------- | ---------------------- |
+|----------------------|-----------|-----------------------------------------------------------------------------|----------------------------------|------------------------|
 | ingestion-service    | Service   | Authenticates sources, validates, normalizes and publishes events.          | Java, Spring Boot                | `ingestion-service`    |
 | detection-service    | Service   | Evaluates detection rules over time windows and publishes alerts.           | Java, Spring Boot, Kafka Streams | `detection-service`    |
 | anomaly-service      | Service   | Aggregates behaviour per entity, scores it and publishes alerts.            | Python, FastAPI, scikit-learn    | `anomaly-service`      |
@@ -271,7 +271,7 @@ This table is the quickest way to see which interactions are synchronous and whi
 are asynchronous, and why.
 
 | From                     | To                              | Style                         | Purpose                                     |
-| ------------------------ | ------------------------------- | ----------------------------- | ------------------------------------------- |
+|--------------------------|---------------------------------|-------------------------------|---------------------------------------------|
 | Event source, simulator  | ingestion-service               | Synchronous, REST over HTTPS  | Submit events and get an acknowledgement.   |
 | ingestion-service        | Kafka                           | Asynchronous publish          | Hand normalized events to the stream.       |
 | ingestion-service        | Redis                           | Synchronous                   | Check and update rate-limit counters.       |
@@ -397,7 +397,7 @@ instances is an open decision (section 11).
 Every datastore has one owner. Nobody else connects to it.
 
 | Datastore             | Owner               | Contents                                                              | Others access it through |
-| --------------------- | ------------------- | --------------------------------------------------------------------- | ------------------------ |
+|-----------------------|---------------------|-----------------------------------------------------------------------|--------------------------|
 | PostgreSQL, rules     | detection-service   | Detection rule definitions, parameters and change history.            | REST API                 |
 | PostgreSQL, incidents | incident-service    | Alerts, incidents, comments, audit trail and the outbox table.        | REST API                 |
 | PostgreSQL, identity  | Keycloak            | Users, roles and client registrations.                                | Keycloak APIs            |
@@ -415,7 +415,7 @@ principle at a cost a laptop can bear.
 ### 6.2 Why these stores
 
 | Need                                  | Store         | Why                                                                         | Trade-off                                                         |
-| ------------------------------------- | ------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+|---------------------------------------|---------------|-----------------------------------------------------------------------------|-------------------------------------------------------------------|
 | Incidents, alerts, audit trail, rules | PostgreSQL    | Transactions, constraints and relations. An incident has many alerts.       | Scales vertically. Schema changes need migrations.                |
 | Raw events                            | MongoDB       | Payloads differ per source, so a flexible document model fits. TTL indexes. | Weak at joins and full-text analytics.                            |
 | Searching events                      | Elasticsearch | Inverted index, full-text search, aggregations and time-range filters.      | Memory-hungry. Eventually consistent. Not a system of record.     |
@@ -439,7 +439,7 @@ will be recorded as ADRs (section 11).
 The values are initial targets and are tuned after load tests.
 
 | Data                  | Retention                                                  | Mechanism                                    |
-| --------------------- | ---------------------------------------------------------- | -------------------------------------------- |
+|-----------------------|------------------------------------------------------------|----------------------------------------------|
 | Kafka events          | 7 days. Must exceed the longest tolerated consumer outage. | Topic retention                              |
 | Raw events in MongoDB | 30 days, configurable (FR-STO-02).                         | TTL index                                    |
 | Search index          | Same as MongoDB.                                           | Time-based indices removed by lifecycle rule |
@@ -451,7 +451,7 @@ The values are initial targets and are tuned after load tests.
 ### 7.1 Two brokers, two jobs
 
 | Aspect            | Kafka                                            | RabbitMQ                                     |
-| ----------------- | ------------------------------------------------ | -------------------------------------------- |
+|-------------------|--------------------------------------------------|----------------------------------------------|
 | Model             | Append-only log, consumers track their position. | Queues, the broker tracks each message.      |
 | Best for          | High-volume ordered data, replay, many readers.  | Tasks, per-message acknowledgement, retries. |
 | After consumption | Messages stay until retention expires.           | Messages are removed after acknowledgement.  |
@@ -499,7 +499,7 @@ Details live in the security documents (planned). This is the structure.
 **Trust zones**
 
 | Zone          | Contains                                   | Exposure                                                  |
-| ------------- | ------------------------------------------ | --------------------------------------------------------- |
+|---------------|--------------------------------------------|-----------------------------------------------------------|
 | External      | Sources, simulator, browsers.              | Untrusted. Reaches the system only through the ingress.   |
 | Edge          | Ingress.                                   | The only component reachable from outside the cluster.    |
 | Application   | Services and the dashboard's static files. | Reachable from the ingress and from other services.       |
@@ -510,7 +510,7 @@ Details live in the security documents (planned). This is the structure.
 **Authentication**
 
 | Actor                  | Mechanism                                                                           |
-| ---------------------- | ----------------------------------------------------------------------------------- |
+|------------------------|-------------------------------------------------------------------------------------|
 | Analyst, administrator | OpenID Connect, authorization code flow with PKCE, against Keycloak.                |
 | Event source           | OAuth 2.0 client credentials. Each source is a registered client (FR-ING-04).       |
 | Service to service     | Mutual TLS, if adopted (NFR-SEC-05, open decision). Access tokens for user context. |
@@ -541,7 +541,7 @@ database role may insert and read it but not update or delete (NFR-SEC-07).
 ### 8.2 Resilience
 
 | Failure                                          | Effect                                                  | Mitigation                                                                                                                 |
-| ------------------------------------------------ | ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+|--------------------------------------------------|---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
 | An ingestion instance restarts                   | In-flight requests fail and sources retry.              | The `202` comes only after Kafka confirms the write, so no accepted event is lost.                                         |
 | Kafka is unavailable                             | Ingestion answers `503`. Sources retry.                 | Accepted data is safe. Kafka is the one critical dependency, and a single local broker is a known single point of failure. |
 | detection-service is down                        | Alerts are delayed.                                     | Events wait in Kafka. The backlog is processed on recovery. Ingestion is unaffected.                                       |
@@ -603,7 +603,7 @@ flowchart LR
 ```
 
 | Signal  | Produced by                                             | Collected by               | Stored in  | Used for                            |
-| ------- | ------------------------------------------------------- | -------------------------- | ---------- | ----------------------------------- |
+|---------|---------------------------------------------------------|----------------------------|------------|-------------------------------------|
 | Metrics | Micrometer in Java services, a client library in Python | Alloy scrapes each service | Prometheus | Dashboards, SLOs and alerts         |
 | Logs    | Structured JSON on standard output                      | Alloy reads container logs | Loki       | Debugging and audit of the platform |
 | Traces  | OpenTelemetry instrumentation                           | Alloy receives OTLP        | Tempo      | Following one request or event      |
@@ -625,7 +625,7 @@ Service level objectives and alert rules are defined in `SLOs.md` (planned).
 Redis is used for two things, both *cache-aside* with an expiry.
 
 | Use                 | Owner             | How it works                                                              | If Redis is lost               |
-| ------------------- | ----------------- | ------------------------------------------------------------------------- | ------------------------------ |
+|---------------------|-------------------|---------------------------------------------------------------------------|--------------------------------|
 | Rate-limit counters | ingestion-service | One token bucket per event source (FR-ING-06).                            | Per-instance in-memory limit.  |
 | Aggregation results | search-service    | Dashboard summaries are cached for a short time and recomputed on a miss. | Recomputed from Elasticsearch. |
 
@@ -710,24 +710,25 @@ Details are in `DEPLOYMENT.md` and `DEVELOPMENT.md` (planned).
 
 ## 10. Requirements coverage
 
-| Requirements               | How the architecture satisfies them                                                    | Section  |
-| -------------------------- | -------------------------------------------------------------------------------------- | -------- |
-| FR-ING-01 to FR-ING-07     | `ingestion-service` validates, normalizes and rate-limits, then publishes.             | 4, 5.1   |
-| FR-STO-01 to FR-STO-05     | `search-service` owns MongoDB for raw events and Elasticsearch for search.             | 6        |
-| FR-DET-01 to FR-DET-06     | `detection-service` runs rules as Kafka Streams windows. Rules are data in PostgreSQL. | 4, 7.2   |
-| FR-ANO-01 to FR-ANO-04     | `anomaly-service` scores entity windows with versioned models.                         | 5.3      |
-| FR-INC-01 to FR-INC-06     | `incident-service` stores alerts, groups incidents and appends to the audit trail.     | 5.1, 5.2 |
-| FR-NOT-01 to FR-NOT-03     | Outbox to RabbitMQ, then `notification-service` with retries and a parking queue.      | 5.1, 7   |
-| FR-DSH-01 to FR-DSH-06     | Angular dashboard calling services through the ingress, with a live feed over SSE.     | 4        |
-| FR-IAM-01 to FR-IAM-04     | Keycloak for identity, roles enforced inside every service.                            | 8.1      |
-| FR-SIM-01 to FR-SIM-03     | The simulator acts as an event source.                                                 | 3        |
-| NFR-PERF-01 to NFR-PERF-03 | Partitioned topics, batched writes, a search-optimized index and cached aggregations.  | 6, 7.2   |
-| NFR-REL-01 to NFR-REL-04   | Durable write before acknowledgement, idempotent consumers, outbox, circuit breakers.  | 5.1, 8.2 |
-| NFR-SCA-01, NFR-SCA-02     | Stateless services, consumer groups and keyed partitions.                              | 2, 7.2   |
-| NFR-SEC-01 to NFR-SEC-08   | TLS, Vault, hardening, network policies, scanning and an append-only audit trail.      | 8.1      |
-| NFR-OBS-01 to NFR-OBS-04   | Alloy with Prometheus, Loki and Tempo, trace context in messages, SLOs.                | 8.3      |
-| NFR-MNT-01 to NFR-MNT-05   | One repository per service, contracts repository, ADRs and conventions.                | 2, 8.6   |
-| NFR-OPS-01 to NFR-OPS-04   | kind, Docker Compose, GitOps and runbooks.                                             | 9        |
+| Requirements               | How the architecture satisfies them                                                                                                               | Section  |
+|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| FR-ING-01 to FR-ING-07     | `ingestion-service` validates, normalizes and rate-limits, then publishes.                                                                        | 4, 5.1   |
+| FR-STO-01 to FR-STO-05     | `search-service` owns MongoDB for raw events and Elasticsearch for search.                                                                        | 6        |
+| FR-DET-01 to FR-DET-06     | `detection-service` runs rules as Kafka Streams windows. Rules are data in PostgreSQL.                                                            | 4, 7.2   |
+| FR-ANO-01 to FR-ANO-04     | `anomaly-service` scores entity windows with versioned models.                                                                                    | 5.3      |
+| FR-INC-01 to FR-INC-06     | `incident-service` stores alerts, groups incidents and appends to the audit trail.                                                                | 5.1, 5.2 |
+| FR-NOT-01 to FR-NOT-03     | Outbox to RabbitMQ, then `notification-service` with retries and a parking queue.                                                                 | 5.1, 7   |
+| FR-DSH-01 to FR-DSH-06     | Angular dashboard calling services through the ingress, with a live feed over SSE.                                                                | 4        |
+| FR-IAM-01 to FR-IAM-04     | Keycloak for identity, roles enforced inside every service.                                                                                       | 8.1      |
+| FR-SIM-01 to FR-SIM-03     | The simulator acts as an event source.                                                                                                            | 3        |
+| NFR-PERF-01 to NFR-PERF-03 | Partitioned topics, batched writes, a search-optimized index and cached aggregations.                                                             | 6, 7.2   |
+| NFR-REL-01 to NFR-REL-04   | Durable write before acknowledgement, idempotent consumers, outbox, circuit breakers.                                                             | 5.1, 8.2 |
+| NFR-SCA-01, NFR-SCA-02     | Stateless services, consumer groups and keyed partitions.                                                                                         | 2, 7.2   |
+| NFR-SEC-01 to NFR-SEC-08   | TLS, Vault, hardening, network policies, scanning and an append-only audit trail.                                                                 | 8.1      |
+| NFR-OBS-01 to NFR-OBS-04   | Alloy with Prometheus, Loki and Tempo, trace context in messages, SLOs.                                                                           | 8.3      |
+| NFR-MNT-01 to NFR-MNT-05   | One repository per service, contracts repository, ADRs and conventions.                                                                           | 2, 8.6   |
+| NFR-OPS-01 to NFR-OPS-04   | kind, Docker Compose, GitOps and runbooks.                                                                                                        | 9        |
+| NFR-USA-01                 | Accessibility is a dashboard design concern (keyboard navigation, contrast, semantic markup) and is covered in the dashboard's own documentation. | 4        |
 
 ## 11. Open decisions, risks and planned ADRs
 
@@ -737,7 +738,7 @@ These need an answer before the affected service is designed. The first two chan
 the repository list, so they need explicit approval.
 
 | Decision                                       | Current proposal                                                | Decided in                        |
-| ---------------------------------------------- | --------------------------------------------------------------- | --------------------------------- |
+|------------------------------------------------|-----------------------------------------------------------------|-----------------------------------|
 | API gateway service or plain ingress           | Ingress only, with every service validating tokens itself.      | ADR                               |
 | Where the simulator code lives                 | A dedicated `simulator` repository.                             | README and ADR                    |
 | Event schema format and registry product       | Avro or Protobuf, to be compared.                               | `EVENT_CATALOG.md` and ADR        |
@@ -755,7 +756,7 @@ storage, search and analytics".
 ### 11.2 Risks
 
 | Risk                                        | Impact                             | Mitigation                                                              |
-| ------------------------------------------- | ---------------------------------- | ----------------------------------------------------------------------- |
+|---------------------------------------------|------------------------------------|-------------------------------------------------------------------------|
 | The platform is too heavy for one machine   | Slow or unstable local environment | Smallest deployments, memory limits, the reduced Compose setup.         |
 | Too many technologies to finish             | A half-built system                | Walking skeleton first, features in vertical slices, MoSCoW priorities. |
 | Coordination cost of many repositories      | Slow changes that span services    | Contracts first, one change per repository, automated checks.           |
@@ -768,7 +769,7 @@ Each of these decisions already appears in this document and will be recorded wi
 its alternatives. Numbers are assigned when each one is written.
 
 | Decision to record                                                    | Main requirements     |
-| --------------------------------------------------------------------- | --------------------- |
+|-----------------------------------------------------------------------|-----------------------|
 | Use a multi-repository layout under one GitHub organization           | NFR-MNT-01            |
 | Use Kafka for events and RabbitMQ for notification tasks              | NFR-REL, NFR-SCA      |
 | Use MongoDB for raw events and Elasticsearch for search               | FR-STO-01, FR-STO-03  |
@@ -786,7 +787,7 @@ Each concept below deserves a short note in `learning/` (planned). They are the 
 an interviewer is most likely to probe.
 
 | Concept                                    | Where it appears | Question it answers                                       |
-| ------------------------------------------ | ---------------- | --------------------------------------------------------- |
+|--------------------------------------------|------------------|-----------------------------------------------------------|
 | C4 model                                   | 3, 4             | How do I describe a system at the right level of detail?  |
 | Database per service                       | 2, 6             | Why can't two services share a database?                  |
 | Outbox pattern                             | 5.1, 7.2         | How do I update a database and send a message reliably?   |
